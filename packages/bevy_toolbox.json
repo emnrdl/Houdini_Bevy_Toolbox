@@ -1,0 +1,7 @@
+{
+  "env": [
+    { "BEVY_TOOLBOX": "/path/to/houdini-bevy-toolbox;&" },
+    { "HOUDINI_OTLSCAN_PATH": "$BEVY_TOOLBOX/otls;&" }
+  ],
+  "path": "$BEVY_TOOLBOX"
+}

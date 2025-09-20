@@ -111,9 +111,59 @@ class CreateBevyProject(QMainWindow):
                 text=True,
                 shell=False
             )
+            subprocess.run(
+                [cargo, "add", "bevy_houdini_loader"],
+                cwd=str(project_path),
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                shell=False
+            )
+
+            # generate basic main.rs
+            main_rs_path = project_path / "src" / "main.rs"
+            main_rs_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(main_rs_path, "w") as f:
+                f.write("""use bevy::prelude::*;
+use bevy_houdini_loader::prelude::*;
+fn main() {
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .insert_resource(HoudiniImportSettings {
+            json_path: "assets/output.json".into(),
+        })
+        .add_plugins(HoudiniImportPlugin)
+        .run();
+}
+""")
+
             # create bevy_config node
             bevy_config = hou.node("/obj").createNode("Bevy_Config", project_name + "_config")
             bevy_config.parm("project_folder").set(str(project_path))
+
+            # create basic scene
+            box_geo =hou.node("/obj").createNode("geo", "cube").createNode("box")
+            box_geo.parm("ty").set(0.5)
+            grid_geo = hou.node("/obj").createNode("geo", "grid").createNode("grid")
+            light_1 = hou.node("/obj").createNode("hlight::2.0", "light1")
+            light_1.parm("light_colorr").set(1.0)
+            light_1.parm("light_colorg").set(0.5)
+            light_1.parm("light_colorb").set(0.0)
+            light_1.parm("light_intensity").set(5.0)
+            light_1.parm("tx").set(2.0)
+            light_1.parm("ty").set(2.0)
+            light_1.parm("tz").set(2.0)
+            cam_1 = hou.node("/obj").createNode("cam", "camera1")
+            cam_1.parm("tx").set(5.9)
+            cam_1.parm("ty").set(4.0)
+            cam_1.parm("tz").set(14.0)
+            cam_1.parm("rx").set(-15.0)
+            cam_1.parm("ry").set(25.0)
+            cam_1.parm("rz").set(0.0)
+            
+            # save houdini scene to the new project folder
+            hou.hipFile.save(str(project_path / "houdini" / "scene_v0001.hip"))
             
             hou.ui.displayMessage(f"Creating project at:\n{project_path}")
         except subprocess.CalledProcessError as e:
@@ -133,8 +183,6 @@ class CreateBevyProject(QMainWindow):
             elif os.name == 'nt':
                 os.startfile(project_path)
 
-        # save houdini scene to the new project folder
-        hou.hipFile.save(str(project_path / "houdini" / "scene_v0001.hip"))
 
         self.close()
 

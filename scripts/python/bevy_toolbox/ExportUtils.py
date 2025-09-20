@@ -195,14 +195,14 @@ def _world_trs_quat(node):
     M = node.worldTransform()
 
     # Translation
-    tx, ty, tz = M.extractTranslates()          # argüman vermeden kullan
+    tx, ty, tz = M.extractTranslates()         
 
     # Scale
     sx, sy, sz = M.extractScales()
 
-    # Rotation (Quaternion): önce 3x3 rotasyon matrisini çıkar, sonra quat'a çevir
+    # Rotation (Quaternion): first extract 3x3 rotation matrix, then convert to quaternion
     R3 = M.extractRotationMatrix3()             # hou.Matrix3
-    q = hou.Quaternion(R3)                      # (w, x, y, z) sırayla erişilebilir
+    q = hou.Quaternion(R3)                      # (w, x, y, z) order
 
     return (
         [float(tx), float(ty), float(tz)],

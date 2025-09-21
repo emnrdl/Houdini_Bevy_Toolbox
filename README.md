@@ -13,14 +13,15 @@ It streamlines the workflow of exporting assets, cameras and light data from Hou
 ## Installation
 
 1. Clone or download this repository into your Houdini preferences folder.
+   
    Example:`git clone https://github.com/yourusername/houdini-bevy-toolbox.git`
-2. Copy the **`bevy_toolbox.json` file into your Houdini** `packages` folder:
+3. Copy the **`bevy_toolbox.json` file into your Houdini** `packages` folder:
 
    * Windows: Documents/houdini21.0/packages/
    * macOS: ~/Library/Preferences/houdini/21.0/packages/
    * Linux: ~/houdini21.0/packages/
-3. Inside the **`bevy_toolbox.json`, set the** `BEVY_TOOLBOX` environment variable to the full path of the toolbox folder.
-4. Restart Houdini. A Bevy Toolbox panel should now be available.
+4. Inside the **`bevy_toolbox.json`, set the** `BEVY_TOOLBOX` environment variable to the full path of the toolbox folder.
+5. Restart Houdini. A Bevy Toolbox panel should now be available.
 
 ## Usage
 

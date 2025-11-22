@@ -163,8 +163,11 @@ fn main() {
             cam_1.parm("rz").set(0.0)
             
             # save houdini scene to the new project folder
-            hou.hipFile.save(str(project_path / "houdini" / "scene_v0001.hip"))
-            
+            print("Saving Houdini scene to:", str(project_path / "houdini" / "scene_v0001.hip"))
+            (project_path / "houdini").mkdir(parents=True, exist_ok=True)
+            file_path = str(project_path / "houdini" / "scene_v0001.hip")
+            hou.hipFile.save(file_path)
+
             hou.ui.displayMessage(f"Creating project at:\n{project_path}")
         except subprocess.CalledProcessError as e:
             hou.ui.displayMessage(f"Failed to create project:\n{e.stderr}")

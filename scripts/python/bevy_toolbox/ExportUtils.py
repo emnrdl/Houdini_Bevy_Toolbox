@@ -34,12 +34,22 @@ def export_enabled_bevy_nodes():
             hou.ui.displayMessage("No geometry nodes found under /obj")
             return
         bevy_enadled_geo_nodes = []
+        instance_pt_clouds = []
+        instance_geo_nodes = []
         for geo_node in geo_nodes:
             bevy_enable_parm = geo_node.parm("bevy_enable")
-            if bevy_enable_parm is None or bevy_enable_parm.eval() == 0:
-                continue
-            else:
-                bevy_enadled_geo_nodes.append(geo_node)
+            instance_point_cloud_parm = geo_node.parm("instance_point_cloud")
+            instance_geo_parm= geo_node.parm("instance_geo")
+            if (instance_point_cloud_parm is None or instance_point_cloud_parm.eval() == 0) and (instance_geo_parm is None or instance_geo_parm.eval() == 0):
+                if bevy_enable_parm is None or bevy_enable_parm.eval() == 0:
+                    continue
+                else:
+                    bevy_enadled_geo_nodes.append(geo_node)
+            if instance_point_cloud_parm is not None and instance_point_cloud_parm.eval() == 1:
+                instance_pt_clouds.append(geo_node)
+            if instance_geo_parm is not None and instance_geo_parm.eval() == 1:
+                instance_geo_nodes.append(geo_node)
+            
         if len(bevy_enadled_geo_nodes) == 0:
             hou.ui.displayMessage("No geometry nodes with Bevy enabled found. Please enable Bevy on geometry nodes to export.")
             return

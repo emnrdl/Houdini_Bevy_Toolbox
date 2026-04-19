@@ -249,9 +249,9 @@ def cargo_run():
         cargo = shutil.which("cargo") or str(Path("/Users/emnrdl/.cargo/bin/cargo").expanduser())
 
         env = os.environ.copy()
-        env["RUST_LOG"] = "info"          # Bevy logları
-        env["RUST_BACKTRACE"] = "1"       # panik olursa stack trace
-        env["WGPU_BACKEND"] = "metal"     # macOS için garanti
+        env["RUST_LOG"] = "info"         
+        env["RUST_BACKTRACE"] = "1"       
+        env["WGPU_BACKEND"] = "metal"    
 
 
         proc = subprocess.Popen(
